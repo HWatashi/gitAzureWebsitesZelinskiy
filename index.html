@@ -1,1 +1,169 @@
 
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Анкета студента</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px 40px;
+            color: #000;
+        }
+        
+        h1 {
+            font-family: "Times New Roman", Times, serif;
+            font-weight: normal;
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .subtitle {
+            font-size: 0.9em;
+            margin-top: 0;
+            margin-bottom: 20px;
+        }
+
+        fieldset {
+            border: 1px solid #999;
+            margin-bottom: 20px;
+            padding: 15px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        legend {
+            padding: 0 5px;
+            font-size: 0.95em;
+        }
+
+        .form-row {
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+
+        label {
+            margin-right: 10px;
+            min-width: 130px;
+        }
+
+        input[type="text"], 
+        input[type="email"], 
+        input[type="date"] {
+            border: 1px solid #aaa;
+            padding: 3px 5px;
+            width: 200px;
+        }
+
+        textarea {
+            width: 300px;
+            height: 80px;
+            border: 1px solid #aaa;
+            resize: vertical;
+        }
+
+        button {
+            padding: 5px 15px;
+            border: 1px solid #999;
+            background-color: #f0f0f0;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background-color: #e0e0e0;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Заповнюй та відправляй <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg></h1>
+    <p class="subtitle">і ми обов'язково зателефонуємо ☺</p>
+
+    <form id="studentForm">
+        <fieldset>
+            <legend>Контактна інформація</legend>
+            <div class="form-row">
+                <label for="name">Ім'я</label>
+                <input type="text" id="name" name="name">
+            </div>
+            <div class="form-row">
+                <label for="email">E-mail</label>
+                <input type="email" id="email" name="email">
+            </div>
+        </fieldset>
+
+        <fieldset>
+            <legend>Персональна інформація</legend>
+            <div class="form-row">
+                <label for="birthplace">Місце народження</label>
+                <input type="text" id="birthplace" name="birthplace">
+            </div>
+            <div class="form-row">
+                <label for="birthdate">Дата народження</label>
+                <input type="date" id="birthdate" name="birthdate">
+            </div>
+        </fieldset>
+
+        <fieldset>
+            <legend>Освіта</legend>
+            <textarea id="education" name="education"></textarea>
+        </fieldset>
+
+        <fieldset>
+            <legend>Досвід роботи</legend>
+            <textarea id="experience" name="experience"></textarea>
+        </fieldset>
+
+        <fieldset>
+            <legend>Особисті якості</legend>
+            <textarea id="qualities" name="qualities"></textarea>
+        </fieldset>
+
+        <button type="button" onclick="saveDataToFile()">Відправити</button>
+    </form>
+
+    <script>
+        function saveDataToFile() {
+            // Збираємо дані з полів форми
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const birthplace = document.getElementById('birthplace').value;
+            const birthdate = document.getElementById('birthdate').value;
+            const education = document.getElementById('education').value;
+            const experience = document.getElementById('experience').value;
+            const qualities = document.getElementById('qualities').value;
+
+            // Формуємо текст для збереження
+            const fileContent = `--- АНКЕТА СТУДЕНТА ---\n\n` +
+                                `КОНТАКТНА ІНФОРМАЦІЯ\n` +
+                                `Ім'я: ${name}\n` +
+                                `E-mail: ${email}\n\n` +
+                                `ПЕРСОНАЛЬНА ІНФОРМАЦІЯ\n` +
+                                `Місце народження: ${birthplace}\n` +
+                                `Дата народження: ${birthdate}\n\n` +
+                                `ОСВІТА\n${education}\n\n` +
+                                `ДОСВІД РОБОТИ\n${experience}\n\n` +
+                                `ОСОБИСТІ ЯКОСТІ\n${qualities}\n`;
+
+            // Створюємо Blob об'єкт (файл у пам'яті браузера)
+            const blob = new Blob([fileContent], { type: "text/plain;charset=utf-8" });
+            
+            // Створюємо тимчасове посилання для завантаження
+            const link = document.createElement("a");
+            link.href = URL.createObjectURL(blob);
+            link.download = "anketa_studenta.txt"; // Назва файлу
+            
+            // Емулюємо клік по посиланню для старту завантаження
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+    </script>
+
+</body>
+</html>
